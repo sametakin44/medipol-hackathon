@@ -265,9 +265,9 @@ export default function App() {
       <header className="flex h-11 items-center justify-between border-b border-zinc-900 px-5">
         <div className="flex items-center gap-2">
           <Sparkles className="h-4 w-4 text-amber-500" />
-          <span className="text-sm font-semibold tracking-tight">AYNA</span>
+          <span className="text-sm font-semibold tracking-tight">Mirror</span>
           <span className="ml-2 text-[11px] text-zinc-500">
-            tweet yorum simülatörü
+            tweet simülatörü
           </span>
         </div>
         <div className="flex items-center gap-3 text-[11px] text-zinc-600">

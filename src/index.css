@@ -2,19 +2,21 @@
 @import "tw-animate-css";
 
 @theme {
+  /* X (Twitter) koyu mod tonlarına yaklaştırıldı; amber accent korunur. */
   --color-background: #000000;
-  --color-surface: #15181c;
+  --color-surface: #16181c;      /* X tweet zemini */
   --color-surface-2: #1c1f23;
-  --color-border: #2f3336;
-  --color-text: #e7e9ea;
-  --color-text-muted: #71767b;
+  --color-border: #2f3336;       /* X ayraç çizgisi */
+  --color-text: #e7e9ea;         /* X primary text */
+  --color-text-muted: #71767b;   /* X secondary text / @handle */
   --color-accent: #f59e0b;
   --color-accent-strong: #d97706;
   --color-success: #22c55e;
   --color-warning: #eab308;
   --color-danger: #ef4444;
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Inter — X'in Chirp fontuna en yakın açık-lisans alternatif. */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 html, body, #root {
@@ -30,6 +32,9 @@ body {
     var(--color-background);
   color: var(--color-text);
   font-family: var(--font-sans);
+  /* Inter ile X tweet hissi: hafif negatif letter-spacing + cv11 (slashed zero) ve ss01. */
+  letter-spacing: -0.011em;
+  font-feature-settings: "cv11", "ss01";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }

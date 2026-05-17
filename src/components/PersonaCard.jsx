@@ -93,7 +93,8 @@ export function PersonaCard({ persona, payload, index = 0 }) {
     >
       <Card
         className={cn(
-          "p-3 transition-colors hover:border-zinc-700",
+          // X tarzı hover: hafif zemin tonu artışı + ayraç biraz daha belirginleşir.
+          "p-3 transition-[background-color,border-color] duration-150 ease-out hover:border-zinc-700/80 hover:bg-zinc-900/65",
           isQuote && "border-l-2 border-l-amber-500/70 bg-zinc-900/60"
         )}
       >
