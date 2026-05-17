@@ -11,6 +11,11 @@ import {
   Square,
   Wand2,
   Undo2,
+  BadgeCheck,
+  MessageCircle,
+  Repeat2,
+  Heart,
+  BarChart3,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -60,6 +65,7 @@ export default function App() {
   const [snapshot, setSnapshot] = useState(null); // { tweet, risk, results, gerekce }
   const [neDegisti, setNeDegisti] = useState(null);
   const [softening, setSoftening] = useState(false);
+  const [softenTot, setSoftenTot] = useState(null); // { secilenDal, branches, evaluatorModel }
 
   const abortRef = useRef(null);
 
@@ -96,6 +102,7 @@ export default function App() {
       // Kullanıcı yeni bir simülasyon başlatıyor; eski before/after'ı temizle.
       setSnapshot(null);
       setNeDegisti(null);
+      setSoftenTot(null);
     }
 
     const controller = new AbortController();
@@ -210,6 +217,17 @@ export default function App() {
 
       setSnapshot(previousSnapshot);
       setNeDegisti(json.neDegisti || "");
+      // ToT bilgileri (3 dal + seçim) — UI'da etiket göstermek için
+      if (Array.isArray(json.branches) && json.branches.length > 0) {
+        setSoftenTot({
+          secilenDal: json.secilenDal || null,
+          branches: json.branches,
+          evaluatorModel: json.evaluatorModel || null,
+          secimGerekcesi: json.secimGerekcesi || "",
+        });
+      } else {
+        setSoftenTot(null);
+      }
       setDraft(yumusatilmis);
       setSoftening(false);
       // Otomatik yeni simülasyonu tetikle — snapshot'ı koru ki before/after gösterilsin.
@@ -230,6 +248,7 @@ export default function App() {
     setCouncilPresident(snapshot.councilPresident ?? null);
     setSnapshot(null);
     setNeDegisti(null);
+    setSoftenTot(null);
     setErrorMsg("");
   };
 
@@ -275,13 +294,36 @@ export default function App() {
             <span>Tweet</span>
           </div>
 
+          {/* X-stili composer önizleme kartı */}
           <div className="flex flex-1 flex-col rounded-xl border border-zinc-800 bg-zinc-900/40 p-3">
+            {/* Üst: avatar + @sen + tik */}
+            <div className="mb-2 flex items-center gap-2">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-500/30 to-fuchsia-500/30 text-base ring-1 ring-zinc-700/50">
+                🪞
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1">
+                  <span className="text-sm font-semibold text-zinc-100">Sen</span>
+                  <BadgeCheck className="h-3.5 w-3.5 text-sky-400" aria-label="doğrulanmış" />
+                </div>
+                <span className="text-[11px] text-zinc-500">@sen · şimdi</span>
+              </div>
+            </div>
+
             <Textarea
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               placeholder="Paylaşmadan önce burada dene…"
-              className="flex-1 min-h-[180px] border-0 bg-transparent text-[15px] focus:ring-0 focus:border-0 p-0"
+              className="flex-1 min-h-[140px] border-0 bg-transparent text-[14.5px] leading-relaxed focus:ring-0 focus:border-0 p-0"
             />
+
+            {/* X-stili dummy etkileşim ikonları (rakamsız) */}
+            <div className="mt-2 flex items-center gap-4 text-zinc-600">
+              <MessageCircle size={13} />
+              <Repeat2 size={13} />
+              <Heart size={13} />
+              <BarChart3 size={13} />
+            </div>
 
             <div className="mt-3 flex items-center justify-between border-t border-zinc-800 pt-3">
               <span
@@ -448,6 +490,28 @@ export default function App() {
                       <Wand2 size={12} />
                       yumuşatıldı
                     </div>
+                    {softenTot && Array.isArray(softenTot.branches) && softenTot.branches.length > 1 && (
+                      <div
+                        className="text-[10.5px] leading-snug text-zinc-400"
+                        title={
+                          softenTot.branches
+                            .map(
+                              (b) =>
+                                `${b.label || b.strategy}${
+                                  b.skor
+                                    ? ` — risk↓ ${b.skor.riskDusus}, niyet ${b.skor.niyetKorunma}`
+                                    : ""
+                                }${b.strategy === softenTot.secilenDal ? "  ✓ seçilen" : ""}`
+                            )
+                            .join("\n")
+                        }
+                      >
+                        <span className="inline-flex items-center gap-1 rounded-full border border-zinc-700/60 bg-zinc-800/40 px-1.5 py-0.5">
+                          <Sparkles className="h-2.5 w-2.5 text-amber-400" />
+                          <span>3 alternatif değerlendirildi · en güvenlisi seçildi</span>
+                        </span>
+                      </div>
+                    )}
                     {neDegisti && (
                       <p className="text-[12px] leading-relaxed text-zinc-300">
                         {neDegisti}

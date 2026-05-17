@@ -13,6 +13,9 @@ export const MODEL_ROLES = {
   // councilC: Gemini 2.5 Pro JSON yerine markdown / commentary dönüyordu (parser kurtarmıyordu).
   // Flash'a alındı — Google vendor diversity korundu, JSON tutarlılığı kazanıldı.
   councilC: "google/gemini-2.5-flash",
+  // Tree-of-Thoughts Yumuşat akışında 3 dalın puanlanması için ucuz değerlendirici.
+  // Council başkanı (councilA) DEĞİŞMEZ; ToT değerlendirmesi ayrı bu rolle yapılır.
+  softenEvaluator: "google/gemini-2.5-flash",
 };
 
 // 8 persona — her birinin bir yorum kartı olacak.
