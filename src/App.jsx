@@ -27,9 +27,13 @@ import { StanceBar } from "@/components/StanceBar";
 
 import { PERSONAS } from "@/config";
 import { MOCK_COMMENTS, MOCK_RISK, SAMPLE_TWEET } from "@/mockData";
+import { DEMO_SEEDS } from "@/seeds";
 import { postSse } from "@/lib/sse";
+import { cn } from "@/lib/utils";
 
-const MAX_CHARS = 280;
+// X Premium uzun-tweet sınırı + backend max 1000 ile hizalı; 280'i amber uyarı eşiği olarak tutuyoruz.
+const MAX_CHARS = 1000;
+const SOFT_LIMIT = 280;
 
 const ZERO_RISK = { virallik: 0, polarizasyon: 0, itibarRiski: 0 };
 
@@ -66,11 +70,28 @@ export default function App() {
   const [neDegisti, setNeDegisti] = useState(null);
   const [softening, setSoftening] = useState(false);
   const [softenTot, setSoftenTot] = useState(null); // { secilenDal, branches, evaluatorModel }
+  // Aktif demo seed (örn. Ruhi Çenet) — composer'ın avatar/isim/handle'ını override eder.
+  const [activeSeed, setActiveSeed] = useState(null);
 
   const abortRef = useRef(null);
 
   const charCount = draft.length;
   const overLimit = charCount > MAX_CHARS;
+  const softWarn = charCount > SOFT_LIMIT && !overLimit; // X klasik 280 üstü — amber uyarı
+
+  const handleSeedToggle = (seed) => {
+    if (activeSeed?.id === seed.id) {
+      // Aynı seed'i tekrar tıklama → seç bırak.
+      setActiveSeed(null);
+      return;
+    }
+    setActiveSeed(seed);
+    setDraft(seed.tweet);
+    // Yeni bir kompozisyon başlıyor — eski before/after temizlensin.
+    setSnapshot(null);
+    setNeDegisti(null);
+    setSoftenTot(null);
+  };
 
   const personaById = useMemo(
     () => Object.fromEntries(PERSONAS.map((p) => [p.id, p])),
@@ -194,6 +215,7 @@ export default function App() {
       gerekce: gerekce ? { ...gerekce } : null,
       councilStage1: councilStage1 ? [...councilStage1] : null,
       councilPresident,
+      activeSeed,
     };
 
     setSoftening(true);
@@ -246,6 +268,7 @@ export default function App() {
     setGerekce(snapshot.gerekce);
     setCouncilStage1(snapshot.councilStage1 ?? null);
     setCouncilPresident(snapshot.councilPresident ?? null);
+    if (snapshot.activeSeed !== undefined) setActiveSeed(snapshot.activeSeed);
     setSnapshot(null);
     setNeDegisti(null);
     setSoftenTot(null);
@@ -296,17 +319,33 @@ export default function App() {
 
           {/* X-stili composer önizleme kartı */}
           <div className="flex flex-1 flex-col rounded-xl border border-zinc-800 bg-zinc-900/40 p-3">
-            {/* Üst: avatar + @sen + tik */}
+            {/* Üst: avatar + isim/handle + tik — aktif seed varsa o profilden, yoksa "Sen". */}
             <div className="mb-2 flex items-center gap-2">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-500/30 to-fuchsia-500/30 text-base ring-1 ring-zinc-700/50">
-                🪞
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-amber-500/30 to-fuchsia-500/30 text-base ring-1 ring-zinc-700/50">
+                {activeSeed?.profile?.avatarSrc ? (
+                  <img
+                    src={activeSeed.profile.avatarSrc}
+                    alt=""
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <span>🪞</span>
+                )}
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-1">
-                  <span className="text-sm font-semibold text-zinc-100">Sen</span>
-                  <BadgeCheck className="h-3.5 w-3.5 text-sky-400" aria-label="doğrulanmış" />
+                  <span className="truncate text-sm font-semibold text-zinc-100">
+                    {activeSeed?.profile?.name ?? "Sen"}
+                  </span>
+                  {(activeSeed ? activeSeed.profile.verified !== false : true) && (
+                    <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-sky-400" aria-label="doğrulanmış" />
+                  )}
                 </div>
-                <span className="text-[11px] text-zinc-500">@sen · şimdi</span>
+                <span className="block truncate text-[11px] text-zinc-500">
+                  {activeSeed
+                    ? `${activeSeed.profile.handle} · ${activeSeed.profile.dateLabel ?? "şimdi"}`
+                    : "@sen · şimdi"}
+                </span>
               </div>
             </div>
 
@@ -327,10 +366,15 @@ export default function App() {
 
             <div className="mt-3 flex items-center justify-between border-t border-zinc-800 pt-3">
               <span
-                className={
-                  "text-[11px] tabular-nums " +
-                  (overLimit ? "text-red-400" : "text-zinc-500")
-                }
+                className={cn(
+                  "text-[11px] tabular-nums",
+                  overLimit
+                    ? "text-red-400"
+                    : softWarn
+                    ? "text-amber-400"
+                    : "text-zinc-500"
+                )}
+                title={softWarn ? "280 karakter — X klasik tweet sınırı aşıldı (Premium uzun-tweet alanı)" : undefined}
               >
                 {charCount}/{MAX_CHARS}
               </span>
@@ -356,6 +400,43 @@ export default function App() {
               )}
             </div>
           </div>
+
+          {/* Hazır demo seed'leri: tek tıkla tweet + composer kimliği değişir. */}
+          {DEMO_SEEDS.length > 0 && (
+            <div className="flex flex-col gap-1.5">
+              <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-600">
+                Hazır seedler
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {DEMO_SEEDS.map((s) => {
+                  const active = activeSeed?.id === s.id;
+                  return (
+                    <button
+                      key={s.id}
+                      type="button"
+                      onClick={() => handleSeedToggle(s)}
+                      className={cn(
+                        "inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[11px] transition-colors duration-150",
+                        active
+                          ? "border-amber-500/50 bg-amber-500/10 text-amber-200"
+                          : "border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200"
+                      )}
+                      title={s.label}
+                    >
+                      {s.profile?.avatarSrc ? (
+                        <img
+                          src={s.profile.avatarSrc}
+                          alt=""
+                          className="h-4 w-4 shrink-0 rounded-full object-cover"
+                        />
+                      ) : null}
+                      <span className="truncate">{s.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           <p className="text-[11px] leading-relaxed text-zinc-600">
             8 persona, tweet'in altına yazacağı yorumu canlı yayınla simüle eder.
