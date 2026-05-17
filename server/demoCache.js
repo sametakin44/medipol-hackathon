@@ -1,6 +1,6 @@
 // AYNA — Demo cache (otomatik üretildi).
 // Üretici: scripts/generate-demo-cache.js
-// Tarih: 2026-05-17T12:56:49.754Z
+// Tarih: 2026-05-17T13:27:55.397Z
 //
 // Bu dosya production cache değil — DEMO/video çekimi için sabit sonuç.
 // AYNA_DEMO_MODE=1 ile server/index.js bu sabit cevapları SSE üzerinden replay eder.
@@ -21,44 +21,14 @@ export const DEMO_SIMULATE_BEFORE = {
     ],
     "model": "google/gemini-2.5-flash",
     "sharpModel": "openai/gpt-4o",
-    "startedAt": 1779022557976
+    "startedAt": 1779024422054
   },
   "personas": [
-    {
-      "personaId": "siradan-takipci",
-      "model": "google/gemini-2.5-flash",
-      "roleKey": "personaPrimary",
-      "comment": "ay bu kadar da değil ya 🙄 biraz abartı olmuş sanki",
-      "stance": "karsit",
-      "intensity": 3,
-      "willEngage": false,
-      "replyType": "reply"
-    },
-    {
-      "personaId": "apolitik-z",
-      "model": "google/gemini-2.5-flash",
-      "roleKey": "personaPrimary",
-      "comment": "hee kanka kesin gençlik sosyal medyada diye çöp olacak başka derdimiz kalmadı sanki ya sjshshs ne abartmışsın ablam",
-      "stance": "alayci",
-      "intensity": 3,
-      "willEngage": true,
-      "replyType": "reply"
-    },
-    {
-      "personaId": "anonim-troll",
-      "model": "openai/gpt-4o",
-      "roleKey": "personaSharp",
-      "comment": "sen ciddi misin kanka, sosyal medyayı kapatınca gençler bir anda Einstein mı olacak? bu bakış açısı ne kadar derin!",
-      "stance": "alayci",
-      "intensity": 4,
-      "willEngage": true,
-      "replyType": "quote"
-    },
     {
       "personaId": "muhafazakar-ebeveyn",
       "model": "google/gemini-2.5-flash",
       "roleKey": "personaPrimary",
-      "comment": "Allah sonumuzu hayretsin... Haklı valla, elimizden kayıp gidiyor çocuklar, hiçbir şeye yetişemiyoruz artık.",
+      "comment": "Allah muhafaza, ne günlere kaldık. Çocuklarımızın elinden telefon düşmüyor, ben de görüyorum, haklısınız.",
       "stance": "destek",
       "intensity": 4,
       "willEngage": true,
@@ -68,9 +38,19 @@ export const DEMO_SIMULATE_BEFORE = {
       "personaId": "marka-yoneticisi",
       "model": "google/gemini-2.5-flash",
       "roleKey": "personaPrimary",
-      "comment": "Bu denli keskin bir ifade, hedef kitle içinde hem gençlerin hem de ebeveynlerin ciddi tepkisini çekebilir. Marka imajı açısından, genellemelerden kaçınmak ve kapsayıcı bir dil kullanmak her zaman daha sağlıklı bir yaklaşımdır.",
+      "comment": "Bu derece keskin ve genellemeci bir söylem, hedef kitlenizin önemli bir kesiminde ciddi bir kopuşa neden olabilir. İletişim stratejilerinde bu gibi 'ya hep ya hiç' yaklaşımlar genellikle istenen pozitif algıyı yaratmaz ve itibar riskini yükseltir.",
       "stance": "karsit",
       "intensity": 4,
+      "willEngage": true,
+      "replyType": "quote"
+    },
+    {
+      "personaId": "apolitik-z",
+      "model": "google/gemini-2.5-flash",
+      "roleKey": "personaPrimary",
+      "comment": "kanka abartmışsın ya, yasaklayınca süper nesil mi olucaz yani? boş yapma bence.",
+      "stance": "karsit",
+      "intensity": 3,
       "willEngage": false,
       "replyType": "reply"
     },
@@ -78,9 +58,19 @@ export const DEMO_SIMULATE_BEFORE = {
       "personaId": "gazeteci",
       "model": "google/gemini-2.5-flash",
       "roleKey": "personaPrimary",
-      "comment": "Sosyal medyanın gençler üzerindeki etkisine dair endişeler anlaşılır. Ancak derhal yasaklama önerisi, sorunu ne kadar çözecek? Bu bilginin dayanağı nedir?",
+      "comment": "Sosyal medya kullanımının gençler üzerindeki etkisi tartışılıyor. 'Mahvediyor', 'çöp olacak' gibi ifadeler bilimsel bir zemine dayanıyor mu? Bu kadar kesin yargılar için elimizde hangi veriler var?",
       "stance": "notr",
       "intensity": 3,
+      "willEngage": true,
+      "replyType": "quote"
+    },
+    {
+      "personaId": "anonim-troll",
+      "model": "openai/gpt-4o",
+      "roleKey": "personaSharp",
+      "comment": "vay be, 18 yaş altını kurtarma görevi kendine verilmiş kanka. bence hükümet seni dinlemeli.",
+      "stance": "alayci",
+      "intensity": 4,
       "willEngage": true,
       "replyType": "quote"
     },
@@ -88,38 +78,71 @@ export const DEMO_SIMULATE_BEFORE = {
       "personaId": "esprili-mizahci",
       "model": "openai/gpt-4o",
       "roleKey": "personaSharp",
-      "comment": "Bizim zamanımızda da televizyon ve walkman gençliği mahvediyor derlerdi, şimdi telefon kablosuz internetsiz çalışmıyor diye üzülüyoruz. Her nesil bir şeyle 'mahvoluyor' zaten. 🎬",
+      "comment": "18 yaşındaki ben, sosyal medyayı keşfetmeseydim şu an taş devrinden kalma bir mağarada olurdum herhalde. 😂",
       "stance": "alayci",
       "intensity": 3,
       "willEngage": true,
       "replyType": "quote"
     },
     {
+      "personaId": "siradan-takipci",
+      "model": "google/gemini-2.5-flash",
+      "roleKey": "personaPrimary",
+      "comment": "aynen yaa, bazen ben bile kendimi kaptırıyorum düşün yani. haklısın.",
+      "stance": "destek",
+      "intensity": 3,
+      "willEngage": true,
+      "replyType": "reply"
+    },
+    {
       "personaId": "liberal-akademisyen",
       "model": "openai/gpt-4o",
       "roleKey": "personaSharp",
-      "comment": "Bu iddiada apaçık bir 'hasty generalization' var. Sosyal medyanın negatif etkileri olabilir ama tüm bir nesli 'çöp' olarak etiketlemek problemin çözümüne dair hiçbir somut veri sunmuyor.",
+      "comment": "18 yaş altına sosyal medya yasağı önerisi, tek değişkenle kocaman bir nesli 'çöp' ilan etme cesareti taşıyor. Sosyal medya etkisini anlamak daha derin bir analiz gerektirir.",
       "stance": "karsit",
       "intensity": 4,
-      "willEngage": true,
+      "willEngage": false,
       "replyType": "reply"
     }
   ],
   "risk": {
-    "virallik": 82,
-    "polarizasyon": 88,
-    "itibarRiski": 87,
+    "virallik": 78,
+    "polarizasyon": 85,
+    "itibarRiski": 82,
     "gerekce": {
-      "virallik": "Gençlik ve sosyal medya gibi evrensel hassas konuya 'çöp nesil' gibi bomba ifade eklenince, hem destek hem öfke kamplarından masif alıntı tweet ve tartışma dalgası kaçınılmaz.",
-      "polarizasyon": "'Çöp nesil' ifadesi Z kuşağı, ebeveynler, eğitimciler ve dijital özgürlük savunucuları arasında keskin kamplaşma yaratıyor; uzlaşma zemini yok, sadece savaş hattı var.",
-      "itibarRiski": "Tüm bir nesli 'çöp' ilan etmek Türk sosyal medyasında linç garantisi; tweet sahibi kalıcı 'gençlik düşmanı' etiketi alır ve kariyer/imaj hasarı uzun vadeli olur."
+      "virallik": "Gençlik ve ebeveynlik hassasiyetine dokunan, radikal yasaklama önerisi içeren tweet, Türk sosyal medyasında yüksek alıntı tweet ve tartışma potansiyeli taşıyor; benzer görüşler sık paylaşılsa da 'çöp nesil' ifadesi ekstra tıklama çekecek.",
+      "polarizasyon": "'Çöp nesil' gibi genelleyici ifade ve 18 yaş altı yasak önerisi, ebeveyn/muhafazakar kesim ile Z kuşağı/liberal kesim arasında keskin bir bölünme yaratıyor; uzmanların en yüksek konsensüsü bu metrikte.",
+      "itibarRiski": "Gençleri 'çöp' ilan eden sert dil, özellikle genç kullanıcıların organize alıntı tweet saldırılarına ve 'boomer/gerici' damgasına yol açabilir; tweet sahibi için orta-yüksek düzeyde linç ve itibar kaybı riski mevcut."
     },
     "source": "council",
     "president": "councilA",
-    "elapsedMs": 16339
+    "elapsedMs": 21275,
+    "councilStage1": [
+      {
+        "memberKey": "councilA",
+        "model": "anthropic/claude-sonnet-4.5",
+        "virallik": 72,
+        "polarizasyon": 78,
+        "itibarRiski": 68
+      },
+      {
+        "memberKey": "councilB",
+        "model": "openai/gpt-4o",
+        "virallik": 70,
+        "polarizasyon": 80,
+        "itibarRiski": 75
+      },
+      {
+        "memberKey": "councilC",
+        "model": "google/gemini-2.5-flash",
+        "virallik": 85,
+        "polarizasyon": 90,
+        "itibarRiski": 90
+      }
+    ]
   },
   "done": {
-    "elapsedMs": 24402,
+    "elapsedMs": 28944,
     "total": 8,
     "riskSource": "council",
     "cacheState": "miss"
@@ -127,10 +150,10 @@ export const DEMO_SIMULATE_BEFORE = {
 };
 
 export const DEMO_SOFTEN_RESPONSE = {
-  "yumusatilmisTweet": "Sosyal medyanın gençler üzerinde olumsuz etkileri olabilir; belki 18 yaş altına sınırlamalar getirilmesi faydalı olur. Bu konuyu ciddiyetle ele almalıyız.",
-  "neDegisti": "'Çöp nesil' ve 'derhal yasaklanmalı' gibi sert ifadeler yumuşatıldı. Gençlerin sosyal medya kullanımıyla ilgili endişeler dile getirildi, ama daha yapıcı ve dengeli bir tonla.",
+  "yumusatilmisTweet": "Sosyal medyanın gençler üzerinde olumsuz etkileri olabileceğini düşünüyorum. Belki 18 yaş altı için bazı kısıtlamalar getirilebilir, aksi halde gençlerimiz için uzun vadede sorunlar ortaya çıkabilir.",
+  "neDegisti": "'Tamamen mahvediyor' ve 'çöp nesil' gibi sert ifadeler yumuşatıldı; yasak önerisi yerine 'kısıtlama' ifadesi kullanılarak daha ılımlı bir yaklaşım benimsendi.",
   "model": "openai/gpt-4o",
-  "elapsedMs": 1874
+  "elapsedMs": 1585
 };
 
 export const DEMO_SIMULATE_AFTER = {
@@ -147,35 +170,65 @@ export const DEMO_SIMULATE_AFTER = {
     ],
     "model": "google/gemini-2.5-flash",
     "sharpModel": "openai/gpt-4o",
-    "startedAt": 1779022584261
+    "startedAt": 1779024452594
   },
   "personas": [
+    {
+      "personaId": "apolitik-z",
+      "model": "google/gemini-2.5-flash",
+      "roleKey": "personaPrimary",
+      "comment": "kanka valla 18 yaş altı kısıtlamaları falan ne alaka ya, sanki biz kendi kendimizi yönetemiyoruz hepsi boş yapıyor 🤡",
+      "stance": "alayci",
+      "intensity": 3,
+      "willEngage": true,
+      "replyType": "reply"
+    },
+    {
+      "personaId": "anonim-troll",
+      "model": "openai/gpt-4o",
+      "roleKey": "personaSharp",
+      "comment": "vay be, sosyal medya uzmanı karşımızda. bravo, gençleri kurtarmanın formülünü buldun!",
+      "stance": "alayci",
+      "intensity": 4,
+      "willEngage": true,
+      "replyType": "quote"
+    },
+    {
+      "personaId": "liberal-akademisyen",
+      "model": "openai/gpt-4o",
+      "roleKey": "personaSharp",
+      "comment": "Gençler üzerindeki etkiler hakkında somut veriler veya ampirik araştırma olmadan bu tür genellemeler yapmak metodolojik olarak yanıltıcı. Sosyal medyanın olumsuz etkileri kadar olumlu yanları da olabilir; dikkatli inceleme şart.",
+      "stance": "karsit",
+      "intensity": 3,
+      "willEngage": true,
+      "replyType": "reply"
+    },
     {
       "personaId": "marka-yoneticisi",
       "model": "google/gemini-2.5-flash",
       "roleKey": "personaPrimary",
-      "comment": "Gençlerin sosyal medya kullanımı konusundaki endişeler anlaşılabilir, ancak sınırlamaların hedef kitle algısı üzerindeki potansiyel etkileri ve uygulama zorlukları derinlemesine değerlendirilmeli.",
+      "comment": "Gençlerin sosyal medya kullanımına yönelik bu endişeler, marka itibarımız açısından dikkatle takip etmemiz gereken bir alan zira hedef kitlemizin önemli bir kısmını etkiliyor.",
       "stance": "notr",
       "intensity": 2,
       "willEngage": false,
       "replyType": "reply"
     },
     {
-      "personaId": "apolitik-z",
+      "personaId": "siradan-takipci",
       "model": "google/gemini-2.5-flash",
       "roleKey": "personaPrimary",
-      "comment": "hee ya kesin sosyal medya yüzünden oluyo her şey sanki başka derdimiz yok he ulan asıl kafa rahatlığına sınırlama getirseler daha iyi ciddiyetle ele alacak başka şeyler var bence",
-      "stance": "alayci",
+      "comment": "aynen yaa, ben de bazen çok korkuyorum bu durumdan 😔",
+      "stance": "destek",
       "intensity": 3,
       "willEngage": false,
       "replyType": "reply"
     },
     {
-      "personaId": "esprili-mizahci",
-      "model": "openai/gpt-4o",
-      "roleKey": "personaSharp",
-      "comment": "18 yaş altına sınırlama getiririz de, sonra ergenler neden duvarlarla konuşmaya başladı diye merak ederiz 😂",
-      "stance": "alayci",
+      "personaId": "gazeteci",
+      "model": "google/gemini-2.5-flash",
+      "roleKey": "personaPrimary",
+      "comment": "Gençler üzerindeki olumsuz etkiler konusunda ne tür veriler var? Kısıtlamaların somut olarak nasıl uygulanacağı ve hangi sorunları çözeceği önemli.",
+      "stance": "notr",
       "intensity": 3,
       "willEngage": true,
       "replyType": "quote"
@@ -184,68 +237,61 @@ export const DEMO_SIMULATE_AFTER = {
       "personaId": "muhafazakar-ebeveyn",
       "model": "google/gemini-2.5-flash",
       "roleKey": "personaPrimary",
-      "comment": "Allah razı olsun, sonunda aklı başında birileri de böyle şeyler söylüyor. Çocuklarımız elden gidiyor bu meret yüzünden, yazık değil mi yavrularımızın geleceğine?",
+      "comment": "Allah razı olsun, ne kadar doğru bir tespit. Ben de evlatlarım için bu durumdan çok muzdaribim, geceleri uyku girmiyor gözüme.",
       "stance": "destek",
       "intensity": 4,
       "willEngage": true,
       "replyType": "reply"
     },
     {
-      "personaId": "liberal-akademisyen",
+      "personaId": "esprili-mizahci",
       "model": "openai/gpt-4o",
       "roleKey": "personaSharp",
-      "comment": "Sosyal medya elbette riskler taşır ama yasaklama yerine eğitimle bilinçlendirme daha etkili olmaz mı? Toptan kısıtlama yerine, gençleri doğru bilgilendirme üzerinde düşünmek gerekir.",
-      "stance": "karsit",
-      "intensity": 3,
-      "willEngage": false,
-      "replyType": "reply"
-    },
-    {
-      "personaId": "anonim-troll",
-      "model": "openai/gpt-4o",
-      "roleKey": "personaSharp",
-      "comment": "ya senin bu ciddiyet merakın niye? 18 yaş altına yasak getiriyor da sanki sen mi kurtaracaksın dünyayı?",
+      "comment": "açık arttırmada sanki! 'belki'yi duyan gençler hemen bir yasak hayali kurdu 😂 sosyal medyada kısıtlamalar, tamam da abartmadan tabii.",
       "stance": "alayci",
-      "intensity": 4,
-      "willEngage": true,
-      "replyType": "quote"
-    },
-    {
-      "personaId": "siradan-takipci",
-      "model": "google/gemini-2.5-flash",
-      "roleKey": "personaPrimary",
-      "comment": "ay bu hep konuşuluyor ama yine de bir şey olmuyor gibi sanki 🤔",
-      "stance": "notr",
-      "intensity": 2,
-      "willEngage": false,
-      "replyType": "reply"
-    },
-    {
-      "personaId": "gazeteci",
-      "model": "google/gemini-2.5-flash",
-      "roleKey": "personaPrimary",
-      "comment": "Gençler üzerinde olası olumsuz etkiler konusunda somut veriler var mı? Hangi araştırmalar bu yönde bir sınırlamayı destekliyor?",
-      "stance": "notr",
       "intensity": 3,
       "willEngage": true,
       "replyType": "quote"
     }
   ],
   "risk": {
-    "virallik": 45,
-    "polarizasyon": 58,
-    "itibarRiski": 35,
+    "virallik": 35,
+    "polarizasyon": 48,
+    "itibarRiski": 22,
     "gerekce": {
-      "virallik": "Tweet klişe bir endişeyi dile getirse de '18 yaş sınırı' önerisi tartışma başlatacak kadar somut, ancak ılımlı ton ve jenerik ifade viral patlama engelliyor.",
-      "polarizasyon": "Ebeveyn-genç, özgürlükçü-korumacı eksenlerde net bir bölünme var ama tweetin yumuşak dili keskin kamplaşmayı körüklemiyor, orta düzey kutuplaşma yaratıyor.",
-      "itibarRiski": "Öneri tartışmalı olsa da 'belki' ve 'ciddiyetle ele almalıyız' gibi temkinli ifadeler linç riskini düşürüyor, ancak genç kitle tarafından 'boomer' damgası yeme ihtimali mevcut."
+      "virallik": "Tweet güncel bir konuya değinse de yumuşatıcı dil ('belki', 'düşünüyorum') ve genel ifadeler nedeniyle sınırlı yayılma potansiyeline sahip, trend olmaktan çok ılımlı tartışma başlatır.",
+      "polarizasyon": "Gençlik-sosyal medya kısıtlaması konusu iki taraf yaratsa da keskin kamplaşma yerine destekçi-karşıt-alaycı arasında dağılmış ılımlı tepkiler gözlemleniyor, ciddi bölünme yok.",
+      "itibarRiski": "Yumuşak ton ve genel endişe ifadesi sayesinde linç potansiyeli minimal, en fazla hafif eleştiri ve alaycı yorumlarla karşılaşabilir ancak kariyer/imaj zararı riski düşük."
     },
     "source": "council",
     "president": "councilA",
-    "elapsedMs": 18549
+    "elapsedMs": 17021,
+    "councilStage1": [
+      {
+        "memberKey": "councilA",
+        "model": "anthropic/claude-sonnet-4.5",
+        "virallik": 28,
+        "polarizasyon": 42,
+        "itibarRiski": 15
+      },
+      {
+        "memberKey": "councilB",
+        "model": "openai/gpt-4o",
+        "virallik": 55,
+        "polarizasyon": 60,
+        "itibarRiski": 40
+      },
+      {
+        "memberKey": "councilC",
+        "model": "google/gemini-2.5-flash",
+        "virallik": 45,
+        "polarizasyon": 60,
+        "itibarRiski": 35
+      }
+    ]
   },
   "done": {
-    "elapsedMs": 25491,
+    "elapsedMs": 22802,
     "total": 8,
     "riskSource": "council",
     "cacheState": "miss"

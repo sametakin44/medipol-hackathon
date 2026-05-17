@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Quote, Loader2 } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
@@ -30,15 +30,20 @@ function StanceBadge({ stance, intensity }) {
 }
 
 export function PersonaCard({ persona, payload, index = 0 }) {
+  const reduce = useReducedMotion();
   const stance = payload?.stance || "notr";
   const intensity = payload?.intensity || 0;
   const isQuote = payload?.replyType === "quote";
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12, scale: 0.985 }}
+      initial={reduce ? false : { opacity: 0, y: 10, scale: 0.99 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.32, delay: Math.min(index, 6) * 0.03, ease: "easeOut" }}
+      transition={{
+        duration: reduce ? 0 : 0.22,
+        delay: reduce ? 0 : Math.min(index, 6) * 0.05,
+        ease: "easeOut",
+      }}
     >
       <Card
         className={cn(
@@ -87,7 +92,7 @@ export function PersonaCard({ persona, payload, index = 0 }) {
 // "yazıyor..." placeholder — SSE geldikçe yerini PersonaCard alır.
 export function PersonaPending({ persona }) {
   return (
-    <Card className="p-3 opacity-70">
+    <Card className="p-3 opacity-70 motion-safe:animate-pulse">
       <div className="flex gap-3">
         <div
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-800 text-xl grayscale"

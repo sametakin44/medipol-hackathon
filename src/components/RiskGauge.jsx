@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { motion, useMotionValue, useTransform, animate, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
@@ -14,18 +14,19 @@ function riskColor(value) {
 }
 
 export function RiskGauge({ label, value, icon: Icon, gerekce, previousValue }) {
+  const reduce = useReducedMotion();
   const progress = useMotionValue(0);
   const dash = useTransform(progress, (v) => `${(v / 100) * CIRC} ${CIRC}`);
   const [display, setDisplay] = useState(0);
 
   useEffect(() => {
     const controls = animate(progress, value || 0, {
-      duration: 1.2,
+      duration: reduce ? 0 : 0.9,
       ease: "easeOut",
       onUpdate: (v) => setDisplay(Math.round(v)),
     });
     return () => controls.stop();
-  }, [value, progress]);
+  }, [value, progress, reduce]);
 
   const color = riskColor(value || 0);
   const hasPrevious =
@@ -60,10 +61,12 @@ export function RiskGauge({ label, value, icon: Icon, gerekce, previousValue }) 
             cx={SIZE / 2}
             cy={SIZE / 2}
             r={RADIUS}
-            stroke={color}
             strokeWidth={STROKE}
             strokeLinecap="round"
             fill="none"
+            initial={false}
+            animate={{ stroke: color }}
+            transition={{ duration: reduce ? 0 : 0.3, ease: "easeOut" }}
             style={{ strokeDasharray: dash }}
           />
         </svg>
@@ -107,10 +110,9 @@ export function RiskGauge({ label, value, icon: Icon, gerekce, previousValue }) 
       <div className="h-1.5 w-full rounded-full bg-zinc-800 overflow-hidden">
         <motion.div
           className="h-full rounded-full"
-          style={{ background: color }}
-          initial={{ width: 0 }}
-          animate={{ width: `${value || 0}%` }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
+          initial={reduce ? false : { width: 0 }}
+          animate={{ width: `${value || 0}%`, background: color }}
+          transition={{ duration: reduce ? 0 : 0.9, ease: "easeOut" }}
         />
       </div>
 

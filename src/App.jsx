@@ -17,6 +17,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { PersonaCard, PersonaPending } from "@/components/PersonaCard";
 import { RiskGauge } from "@/components/RiskGauge";
+import { CouncilPanel } from "@/components/CouncilPanel";
+import { StanceBar } from "@/components/StanceBar";
 
 import { PERSONAS } from "@/config";
 import { MOCK_COMMENTS, MOCK_RISK, SAMPLE_TWEET } from "@/mockData";
@@ -47,6 +49,8 @@ export default function App() {
   const [results, setResults] = useState({});
   const [risk, setRisk] = useState(ZERO_RISK);
   const [gerekce, setGerekce] = useState(null); // council per-metrik gerekçe { virallik, polarizasyon, itibarRiski }
+  const [councilStage1, setCouncilStage1] = useState(null); // [{memberKey, model, virallik, polarizasyon, itibarRiski}]
+  const [councilPresident, setCouncilPresident] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
   const [isMockFallback, setIsMockFallback] = useState(false);
   const [streamingPersonaIds, setStreamingPersonaIds] = useState(
@@ -85,6 +89,8 @@ export default function App() {
     setResults({});
     setRisk(ZERO_RISK);
     setGerekce(null);
+    setCouncilStage1(null);
+    setCouncilPresident(null);
     setStreamingPersonaIds(new Set(PERSONAS.map((p) => p.id)));
     if (!keepSnapshot) {
       // Kullanıcı yeni bir simülasyon başlatıyor; eski before/after'ı temizle.
@@ -131,6 +137,14 @@ export default function App() {
           } else {
             setGerekce(null);
           }
+          // Uzman kurulu — 3 council üyesinin ham skoru (heuristic fallback'te gelmez).
+          if (Array.isArray(data?.councilStage1) && data.councilStage1.length > 0) {
+            setCouncilStage1(data.councilStage1);
+            setCouncilPresident(data?.president || null);
+          } else {
+            setCouncilStage1(null);
+            setCouncilPresident(null);
+          }
         },
         done: () => {
           setLoading(false);
@@ -171,6 +185,8 @@ export default function App() {
       risk: { ...risk },
       results: { ...results },
       gerekce: gerekce ? { ...gerekce } : null,
+      councilStage1: councilStage1 ? [...councilStage1] : null,
+      councilPresident,
     };
 
     setSoftening(true);
@@ -210,6 +226,8 @@ export default function App() {
     setResults(snapshot.results);
     setRisk(snapshot.risk);
     setGerekce(snapshot.gerekce);
+    setCouncilStage1(snapshot.councilStage1 ?? null);
+    setCouncilPresident(snapshot.councilPresident ?? null);
     setSnapshot(null);
     setNeDegisti(null);
     setErrorMsg("");
@@ -245,7 +263,7 @@ export default function App() {
               before / after
             </span>
           )}
-          <span>v0.5 — yumuşat</span>
+          <span>v0.6 — polish</span>
         </div>
       </header>
 
@@ -321,6 +339,10 @@ export default function App() {
             )}
           </div>
 
+          {hasResult && completedCount > 0 && (
+            <StanceBar results={results} total={PERSONAS.length} />
+          )}
+
           {errorMsg && (
             <div className="flex items-start gap-2 rounded-lg border border-red-900/60 bg-red-950/30 p-3 text-xs text-red-300">
               <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
@@ -393,6 +415,8 @@ export default function App() {
           </div>
 
           <div className="flex flex-1 min-h-0 flex-col gap-2 overflow-y-auto pr-1">
+            <CouncilPanel councilStage1={councilStage1} president={councilPresident} />
+
             <RiskGauge
               label="Virallik"
               value={risk.virallik}

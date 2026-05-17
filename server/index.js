@@ -159,6 +159,14 @@ app.post("/api/simulate", async (req, res) => {
       try {
         const council = await runCouncil({ tweet, personaResults: all });
         if (council) {
+          // councilStage1 = her bağımsız üyenin 3 metrik skoru (UI'da görünürlük için).
+          const councilStage1 = (council.council?.stage1 ?? []).map((m) => ({
+            memberKey: m.memberKey,
+            model: m.model,
+            virallik: m.virallik,
+            polarizasyon: m.polarizasyon,
+            itibarRiski: m.itibarRiski,
+          }));
           riskPayload = {
             virallik: council.virallik,
             polarizasyon: council.polarizasyon,
@@ -167,6 +175,7 @@ app.post("/api/simulate", async (req, res) => {
             source: "council",
             president: council.council.president,
             elapsedMs: council.council.elapsedMs,
+            councilStage1,
           };
           councilCache.set(tweet, riskPayload);
         } else {
