@@ -20,6 +20,22 @@ dist-ssr
 # Generated test output
 scripts/turkce-test-sonuc.html
 
+# Yerel notlar — repo'da paylaşma
+CLAUDE.md
+STEP_REPORT.md
+STEP2_REPORT.md
+STEP3_REPORT.md
+STEP4_REPORT.md
+STEP5_REPORT.md
+STEP_FINAL_REPORT.md
+STEP_FONT_REPORT.md
+STEP_POLISH_REPORT.md
+STEP_TOT_REPORT.md
+
+# Ekran görüntüleri — README'de gösterilen tek dosya hariç repo'da tutulmaz
+docs/screenshots/*
+!docs/screenshots/step-final-1080p.png
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
